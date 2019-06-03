@@ -3,6 +3,7 @@ package com.shiva.practice.mapper;
 import com.shiva.practice.mvp.model.Cake;
 import com.shiva.practice.mvp.model.CakeResponse;
 import com.shiva.practice.mvp.model.CakeResponseCakes;
+import com.shiva.practice.mvp.model.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class CakeMapper {
     public CakeMapper() {
     }
 
-    public List<Cake> mapCakes(CakeResponse response) {
+    public List<Cake> mapCakes(Storage storage, CakeResponse response) {
 
         List<Cake> cakeList = new ArrayList<>();
         if (response != null) {
@@ -28,6 +29,7 @@ public class CakeMapper {
                     myCake.setPreviewDescription(cakeResponseCakes.getPreviewDescription());
                     myCake.setImageUrl(cakeResponseCakes.getImage());
                     myCake.setTitle(cakeResponseCakes.getTitle());
+                    storage.addCake(myCake);
                     cakeList.add(myCake);
                 }
             }

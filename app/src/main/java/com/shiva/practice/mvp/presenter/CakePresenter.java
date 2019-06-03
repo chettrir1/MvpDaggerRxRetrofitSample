@@ -5,6 +5,7 @@ import com.shiva.practice.base.BasePresenter;
 import com.shiva.practice.mapper.CakeMapper;
 import com.shiva.practice.mvp.model.Cake;
 import com.shiva.practice.mvp.model.CakeResponse;
+import com.shiva.practice.mvp.model.Storage;
 import com.shiva.practice.mvp.view.MainView;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class CakePresenter extends BasePresenter<MainView> implements Observer<C
 
     @Inject
     protected CakeMapper mCakeMapper;
+
+    @Inject
+    protected Storage mStorage;
+
 
     @Inject
     public CakePresenter() {
@@ -40,7 +45,8 @@ public class CakePresenter extends BasePresenter<MainView> implements Observer<C
 
     @Override
     public void onNext(CakeResponse cakeResponse) {
-        List<Cake> cakes = mCakeMapper.mapCakes(cakeResponse);
+        List<Cake> cakes = mCakeMapper.mapCakes(mStorage, cakeResponse);
+        getView().onClearItems();
         getView().onCakeLoaded(cakes);
     }
 
@@ -54,5 +60,11 @@ public class CakePresenter extends BasePresenter<MainView> implements Observer<C
     public void onComplete() {
         getView().onHideDialog();
         getView().onShowToast("Cakes loading completed");
+    }
+
+    public void getCakesFromDatabase() {
+        List<Cake> cakes = mStorage.getSavedCakes();
+        getView().onClearItems();
+        getView().onCakeLoaded(cakes);
     }
 }

@@ -17,6 +17,7 @@ import com.shiva.practice.modules.home.adapter.CakeAdapter;
 import com.shiva.practice.mvp.model.Cake;
 import com.shiva.practice.mvp.presenter.CakePresenter;
 import com.shiva.practice.mvp.view.MainView;
+import com.shiva.practice.utilities.NetworkUtils;
 
 import java.util.List;
 
@@ -39,7 +40,11 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
         initializeList();
-        mPresenter.getCakes();
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            mPresenter.getCakes();
+        } else {
+            mPresenter.getCakesFromDatabase();
+        }
     }
 
     private void initializeList() {
@@ -81,5 +86,10 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public void onShowToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClearItems() {
+        mCakeAdapter.clearCakes();
     }
 }

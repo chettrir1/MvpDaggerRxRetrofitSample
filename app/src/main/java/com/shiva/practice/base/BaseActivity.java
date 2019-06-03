@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.shiva.practice.application.CakesApplication;
 import com.shiva.practice.di.components.ApplicationComponent;
 
-import java.nio.file.attribute.FileAttribute;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
